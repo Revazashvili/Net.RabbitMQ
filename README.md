@@ -46,7 +46,7 @@ services.AddRabbitMq(config);
 
 Only Publisher 
 ```csharp
-services.AddProduer(config);
+services.AddProducer(config);
 ```
 
 Only Subscriber
