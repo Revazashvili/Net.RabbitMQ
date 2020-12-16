@@ -18,7 +18,7 @@ namespace Net.RabbitMQ.Extensions
         /// <param name="services"></param>
         /// <param name="configuration"></param>
         /// <returns></returns>
-        public static IServiceCollection AddProduer(this IServiceCollection services, RabbitMQConfiguration configuration)
+        public static IServiceCollection AddProducer(this IServiceCollection services, RabbitMQConfiguration configuration)
         {
             services.AddSingleton<IConnectionProvider>(new ConnectionProvider(configuration));
             services.AddScoped<IProducer>(x => new Producer(x.GetService<IConnectionProvider>(), configuration));
