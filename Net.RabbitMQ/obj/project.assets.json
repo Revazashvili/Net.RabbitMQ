@@ -539,7 +539,7 @@
     "C:\\Users\\levan\\.nuget\\packages\\": {}
   },
   "project": {
-    "version": "1.0.0",
+    "version": "1.0.3",
     "restore": {
       "projectUniqueName": "C:\\Projects\\NetCore\\Net.RabbitMQ\\Net.RabbitMQ\\Net.RabbitMQ.csproj",
       "projectName": "Net.RabbitMQ",

@@ -6,12 +6,12 @@ using System;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace Net.RabbitMQ.Models.Entities
 {
     public class Consumer : IConsumer
     {
-
         private bool _disposed;
         private readonly IConnectionProvider Connection;
         private readonly IModel _model;
@@ -21,9 +21,21 @@ namespace Net.RabbitMQ.Models.Entities
             Connection = connection;
             _config = config;
             _model = Connection.GetConnection().CreateModel();
-            _model.ExchangeDeclare(_config.Exchange.Name, _config.Exchange.Type, _config.Queue.Durable, _config.Queue.AutoDelete, _config.Queue.Arguments);
-            _model.QueueDeclare(_config.Queue.Name, _config.Queue.Durable, _config.Queue.Exclusive, _config.Queue.AutoDelete, _config.Queue.Arguments);
-            _model.QueueBind(_config.Queue.Name, _config.Exchange.Name, _config.Queue.Routing, _config.Queue.Arguments);
+
+            //Dead Letter Queue and Exchange
+            _model.ExchangeDeclare(_config.DLExchange.Name, _config.DLExchange.Type);
+            _model.QueueDeclare(_config.DLQueue.Name,_config.DLQueue.Durable, _config.DLQueue.Exclusive, _config.DLQueue.AutoDelete);
+
+            //arguments for dlexchange
+            var arguments = new Dictionary<string, object>()
+            {
+                {"x-dead-letter-exchange",_config.DLExchange.Name}
+            };
+
+            //Working Queue and Exchange
+            _model.ExchangeDeclare(_config.Exchange.Name, _config.Exchange.Type);
+            _model.QueueDeclare(_config.Queue.Name, _config.Queue.Durable, _config.Queue.Exclusive, _config.Queue.AutoDelete,arguments);
+            _model.QueueBind(_config.Queue.Name, _config.Exchange.Name, _config.Routing,arguments);
             _model.BasicQos(_config.PrefetchSize, _config.PrefetchCount, false);
         }
 
@@ -44,19 +56,27 @@ namespace Net.RabbitMQ.Models.Entities
             var _consumer = new EventingBasicConsumer(_model);
             _consumer.Received += (sender, e) =>
             {
-                var body = e.Body.ToArray();
-                var message = JsonConvert.DeserializeObject<T>(Encoding.UTF8.GetString(body));
-                var success = callback.Invoke(message);
-                if (success.IsCompleted)
+                try
                 {
-                    _model.BasicAck(e.DeliveryTag, true);
+                    var body = e.Body.ToArray();
+                    var message = JsonConvert.DeserializeObject<T>(Encoding.UTF8.GetString(body));
+                    var success = callback.Invoke(message);
+                    if (success.IsCompleted)
+                    {
+                        _model.BasicAck(e.DeliveryTag, false);
+                    }
+                    else
+                    {
+                        _model.BasicNack(e.DeliveryTag, false, false);
+                    }
                 }
-                else
+                catch(Exception ex)
                 {
-                    _model.BasicPublish(_config.Exchange.Name, _config.Queue.Routing + "_error", basicProperties: null, body: body);
+                    Console.WriteLine(ex.Message);
+                    _model.BasicNack(e.DeliveryTag, false, false);
                 }
             };
-            _model.BasicConsume(_config.Queue.Name, autoAck: true, _consumer);
+            _model.BasicConsume(_config.Queue.Name, autoAck: false, _consumer);
         }
 
         public void Dispose()

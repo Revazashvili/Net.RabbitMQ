@@ -1,6 +1,10 @@
 {
   "version": 2,
+<<<<<<< HEAD
+  "dgSpecHash": "98eeJdfCtnliTMGay+b3fyb/nxdSo4yJ8Nh4fRxZIC5NVgtOgXIZ2YdFJjYDh9u+TjsZsUUpDmZbaiQXA2UaMQ==",
+=======
   "dgSpecHash": "I5oJK04JQr6EDshHhwnhtDf1leik57gLMs32y1PdTSuDKRdpWfA6mYEUqfmo18hz3j4/3VyahzoEktpW6tAaEQ==",
+>>>>>>> master
   "success": true,
   "projectFilePath": "C:\\Projects\\NetCore\\Net.RabbitMQ\\Net.RabbitMQ\\Net.RabbitMQ.csproj",
   "expectedPackageFiles": [
