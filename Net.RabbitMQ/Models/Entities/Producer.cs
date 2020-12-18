@@ -35,7 +35,6 @@ namespace Net.RabbitMQ.Models.Entities
             {
                 var body = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(message));
                 var basicProperties = _model.CreateBasicProperties();
-                basicProperties.Headers = _config.Queue.Arguments;
                 _model.BasicPublish(_config.Exchange.Name, _config.Routing, basicProperties, body: body);
             });
         }
