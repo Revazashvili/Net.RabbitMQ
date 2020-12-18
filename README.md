@@ -12,7 +12,6 @@ dotnet add package Net.RabbitMQ --version 1.0.1
 appsettings.json
 
 ```json
-
 "RabbitMqConfiguraion": {
     "RabbitMqConnection": {
       "HostName": "localhost",
@@ -25,13 +24,23 @@ appsettings.json
       "Name": "amq.direct",
       "Type": "direct"
     },
+    "DLExchange": {
+      "Name": "amq.direct",
+      "Type": "direct"
+    },
     "Queue": {
-      "Name": "test",
-      "Routing": "test",
+      "Name": "weatherexchange",
       "Durable": "True",
       "AutoDelete": "false",
       "Exclusive": "false"
     },
+    "DLQueue": {
+      "Name": "weatherexchange",
+      "Durable": "True",
+      "AutoDelete": "false",
+      "Exclusive": "false"
+    },
+    "Routing": "weather",
     "PrefetchSize": 0,
     "PrefetchCount": 10
   }
