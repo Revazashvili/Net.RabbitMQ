@@ -23,24 +23,14 @@ appsettings.json
     "Exchange": {
       "Name": "amq.direct",
       "Type": "direct"
-    },
-    "DLExchange": {
-      "Name": "amq.direct",
-      "Type": "direct"
-    },
+    }
     "Queue": {
-      "Name": "weatherexchange",
+      "Name": "queue",
+      "Routing": "test",
       "Durable": "True",
       "AutoDelete": "false",
       "Exclusive": "false"
-    },
-    "DLQueue": {
-      "Name": "weatherexchange",
-      "Durable": "True",
-      "AutoDelete": "false",
-      "Exclusive": "false"
-    },
-    "Routing": "weather",
+    }
     "PrefetchSize": 0,
     "PrefetchCount": 10
   }
