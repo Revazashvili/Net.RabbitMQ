@@ -5,7 +5,7 @@ Package for publishing and consuming messages to RabbitMQ
 Use the Nuget package manager [Nuget](https://www.nuget.org/packages/Net.RabbitMQ/) to install net.RabbitMQ
 
 ```bash
-dotnet add package Net.RabbitMQ --version 1.0.1
+dotnet add package Net.RabbitMQ --version 1.0.6
 ```
 ## Usage
 
@@ -21,16 +21,26 @@ appsettings.json
       "Password": "guest"
     },
     "Exchange": {
-      "Name": "amq.direct",
+      "Name": "testexchange",
       "Type": "direct"
-    }
+    },
+    "DLExchange": {
+      "Name": "dltestexchange",
+      "Type": "direct"
+    },
     "Queue": {
       "Name": "queue",
-      "Routing": "test",
       "Durable": "True",
       "AutoDelete": "false",
       "Exclusive": "false"
-    }
+    },
+    "DLQueue": {
+      "Name": "dlqueue",
+      "Durable": "True",
+      "AutoDelete": "false",
+      "Exclusive": "false"
+    },
+    "Routing": "test",
     "PrefetchSize": 0,
     "PrefetchCount": 10
   }
