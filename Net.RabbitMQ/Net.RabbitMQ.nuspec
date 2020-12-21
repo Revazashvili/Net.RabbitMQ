@@ -2,7 +2,7 @@
 <package>
   <metadata>
     <id>Net.RabbitMQ</id>
-    <version>1.0.4</version>
+    <version>1.0.5</version>
     <title>Net.RabbitMQ</title>
     <authors>Levan Revazashvili</authors>
     <owners>Levan Revazashvili</owners>
@@ -10,7 +10,7 @@
     <projectUrl>https://github.com/Revazashvili/Net.RabbitMQ</projectUrl>
     <description>Package for RabbitMQ to publish and comsume messages</description>
     <copyright>Revazashvili</copyright>
-    <tags>publish comsume RabbitMQ message-broker</tags>
+    <tags>publish consume RabbitMQ message-broker</tags>
     <dependencies>
       <dependency id="Newtonsoft.Json" version="12.0.3" />
       <dependency id="RabbitMQ.Client" version="6.2.1" />

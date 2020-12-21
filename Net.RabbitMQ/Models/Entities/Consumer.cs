@@ -23,7 +23,7 @@ namespace Net.RabbitMQ.Models.Entities
             _model = Connection.GetConnection().CreateModel();
 
             //Dead Letter Queue and Exchange
-            _model.ExchangeDeclare(_config.DLExchange.Name, _config.DLExchange.Type);
+            _model.ExchangeDeclare(_config.DLExchange.Name, _config.DLExchange.Type,_config.Queue.Durable,_config.Queue.AutoDelete);
             _model.QueueDeclare(_config.DLQueue.Name,_config.DLQueue.Durable, _config.DLQueue.Exclusive, _config.DLQueue.AutoDelete);
 
             //arguments for dlexchange
@@ -33,7 +33,7 @@ namespace Net.RabbitMQ.Models.Entities
             };
 
             //Working Queue and Exchange
-            _model.ExchangeDeclare(_config.Exchange.Name, _config.Exchange.Type);
+            _model.ExchangeDeclare(_config.Exchange.Name, _config.Exchange.Type,_config.Queue.Durable, _config.Queue.AutoDelete);
             _model.QueueDeclare(_config.Queue.Name, _config.Queue.Durable, _config.Queue.Exclusive, _config.Queue.AutoDelete,arguments);
             _model.QueueBind(_config.Queue.Name, _config.Exchange.Name, _config.Routing,arguments);
             _model.BasicQos(_config.PrefetchSize, _config.PrefetchCount, false);

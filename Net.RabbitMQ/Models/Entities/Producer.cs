@@ -20,7 +20,7 @@ namespace Net.RabbitMQ.Models.Entities
             _connectionProvider = connectionProvider;
             _model = _connectionProvider.GetConnection().CreateModel();
             _config = config;
-            _model.ExchangeDeclare(_config.Exchange.Name, _config.Exchange.Type.ToString(),true,false);
+            _model.ExchangeDeclare(_config.Exchange.Name, _config.Exchange.Type.ToString(),_config.Queue.Durable, _config.Queue.AutoDelete);
         }
         public void Publish<T>(T message)
         {
