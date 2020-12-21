@@ -12,7 +12,6 @@ dotnet add package Net.RabbitMQ --version 1.0.1
 appsettings.json
 
 ```json
-
 "RabbitMqConfiguraion": {
     "RabbitMqConnection": {
       "HostName": "localhost",
@@ -24,14 +23,14 @@ appsettings.json
     "Exchange": {
       "Name": "amq.direct",
       "Type": "direct"
-    },
+    }
     "Queue": {
-      "Name": "test",
+      "Name": "queue",
       "Routing": "test",
       "Durable": "True",
       "AutoDelete": "false",
       "Exclusive": "false"
-    },
+    }
     "PrefetchSize": 0,
     "PrefetchCount": 10
   }
