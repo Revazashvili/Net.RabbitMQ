@@ -22,13 +22,25 @@ namespace Net.RabbitMQ.Models.Entities
             _config = config;
             _model.ExchangeDeclare(_config.Exchange.Name, _config.Exchange.Type.ToString(),_config.Queue.Durable, _config.Queue.AutoDelete);
         }
+        
+        /// <summary>
+        /// publish message to exchange
+        /// </summary>
+        /// <param name="message"></param>
+        /// <typeparam name="T"></typeparam>
         public void Publish<T>(T message)
         {
             var body = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(message));
             var basicProperties = _model.CreateBasicProperties();
             _model.BasicPublish(_config.Exchange.Name, _config.Routing, basicProperties, body: body);
         }
-
+        
+        /// <summary>
+        /// publish message to exchange asynchronously
+        /// </summary>
+        /// <param name="message"></param>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
         public async Task PublishAsync<T>(T message)
         {
             await Task.Run(() =>
