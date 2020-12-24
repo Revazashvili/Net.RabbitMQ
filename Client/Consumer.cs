@@ -29,6 +29,10 @@ namespace Client
             return Task.CompletedTask;
         }
 
+        public override Task StopAsync(CancellationToken cancellationToken)
+        {
+        }
+
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
             _logger.LogInformation($"consuming at {DateTime.Now}");
