@@ -5,7 +5,7 @@ Package for publishing and consuming messages to RabbitMQ
 Use the Nuget package manager [Nuget](https://www.nuget.org/packages/Net.RabbitMQ/) to install net.RabbitMQ
 
 ```bash
-dotnet add package Net.RabbitMQ --version 1.0.6
+dotnet add package Net.RabbitMQ --version 1.0.8
 ```
 ## Usage
 
@@ -66,12 +66,12 @@ services.AddSubscriber(config);
 Example Code
 Publish
 ```csharp
-_producer.Publish<T>(message);
+_producer.PublishAsync<T>(message); // IProducer interface
 ```
 
 Consume
 ```csharp
-_consumer.Subscribe<T>(MessageProcessor);
+_consumer.SubscribeAsync<T>(MessageProcessor); // IConsumer interface
 
 private Task MessageProcessor(T arg)
 {
@@ -79,5 +79,3 @@ private Task MessageProcessor(T arg)
     return Task.CompletedTask;
 }
 ```
-## Contributing
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.

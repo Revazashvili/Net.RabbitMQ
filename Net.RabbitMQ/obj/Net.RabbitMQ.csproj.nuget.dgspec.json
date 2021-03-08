@@ -14,7 +14,7 @@
         "outputPath": "C:\\Projects\\NetCore\\Net.RabbitMQ\\Net.RabbitMQ\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Microsoft\\Xamarin\\NuGet\\"
+          "C:\\Microsoft\\Xamarin\\NuGet"
         ],
         "configFilePaths": [
           "C:\\Users\\levan\\AppData\\Roaming\\NuGet\\NuGet.Config",
