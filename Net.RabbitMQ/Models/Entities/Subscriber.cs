@@ -7,89 +7,66 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using Net.RabbitMQ.Models.Exceptions;
+using static System.String;
 
 namespace Net.RabbitMQ.Models.Entities
 {
+    /// <inheritdoc />
     public class Subscriber : ISubscriber
     {
         private bool _disposed;
-        private readonly IConnectionProvider _connection;
         private readonly IModel _model;
-        private readonly EventingBasicConsumer _consumer;
+        private readonly AsyncEventingBasicConsumer _consumer;
         private readonly RabbitMqConfiguration _config;
-        private string _consumerTag = String.Empty;
+        private string _consumerTag = Empty;
         public Subscriber(IConnectionProvider connection, RabbitMqConfiguration config)
         {
-            _connection = connection;
-            _config = config;
-            _model = _connection.Connection.CreateModel();
+            _config = config ?? throw new Exception(nameof(RabbitMqConfiguration));
+            _model = connection.Connection().CreateModel() ?? throw new Exception(nameof(IConnectionProvider));
             DeclareDlExchangeAndDlQueue();
             DeclareExchangeAndQueue();
-            _consumer = new EventingBasicConsumer(_model);
+            _consumer = new AsyncEventingBasicConsumer(_model) ?? throw new Exception(nameof(EventingBasicConsumer));
         }
         public void Subscribe<T>(Func<T, Task> callback)
         {
-            _consumer.Received += (sender, e) =>
+            if (callback is null)
+                throw new CallbackFunctionNullException();
+            
+            _consumer.Received += async (sender,e) =>
             {
                 try
                 {
                     var body = e.Body.ToArray();
+                    if (body is null) 
+                        throw new ConsumedMessageNullException();
                     var message = JsonConvert.DeserializeObject<T>(Encoding.UTF8.GetString(body));
-                    var result = callback.Invoke(message);
-                    if (result.IsCompleted)
-                    {
+                    var result = callback(message);
+                    if (result!.IsCompleted)
                         _model.BasicAck(e.DeliveryTag, false);
-                    }
                     else
-                    {
                         _model.BasicNack(e.DeliveryTag, false, false);
-                    }
                 }
                 catch(Exception ex)
                 {
-                    Console.WriteLine(ex.Message);
                     _model.BasicNack(e.DeliveryTag, false, false);
+                    throw;
                 }
+                await Task.Yield();
             };
             _consumerTag  = _model.BasicConsume(_config.Queue.Name, autoAck: false, _consumer);
         }
-        public async Task SubscribeAsync<T>(Func<T, Task> callback)
-        {
-            await Task.Run(() =>
-            {
-                _consumer.Received += (sender,e)=>
-                {
-                    try
-                    {
-                        var body = e.Body.ToArray();
-                        var message = JsonConvert.DeserializeObject<T>(Encoding.UTF8.GetString(body));
-                        var result = callback.Invoke(message);
-                        if (result.IsCompleted)
-                            _model.BasicAck(e.DeliveryTag,false);
-                        _model.BasicNack(e.DeliveryTag,false,false);
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine(ex.Message);
-                        _model.BasicNack(e.DeliveryTag,false,false);
-                    }
-                };
-                _consumerTag  = _model.BasicConsume(_config.Queue.Name, autoAck: false, _consumer);
-            });
-        }
+
+        public async Task SubscribeAsync<T>(Func<T, Task> callback) => await Task.Run(() => Subscribe(callback));
+
         public void UnSubscribe()
         {
-            if (_consumerTag != null)
+            if (!IsNullOrEmpty(_consumerTag))
             {
                 _model.BasicCancel(_consumerTag);
             }
         }
-
-        public Task UnSubscribeAsync()
-        {
-            throw new NotImplementedException();
-        }
-
+        public async Task UnSubscribeAsync() => await Task.Run(UnSubscribe);
         public void Dispose()
         {
             Dispose(true);
@@ -109,16 +86,16 @@ namespace Net.RabbitMQ.Models.Entities
         #region Private Methods
         private void FixDlNames()
         {
-            if (_config.DlExchange != null && (_config.DlExchange?.Name == String.Empty || _config.DlExchange.Name is null))
+            if (_config.DlExchange != null && (_config.DlExchange?.Name == Empty || _config.DlExchange.Name is null))
                 _config.DlExchange.Name = $"dl{_config.Exchange.Name}";
-            if (_config.DlQueue != null && (_config.DlQueue?.Name == String.Empty || _config.DlQueue.Name is null))
+            if (_config.DlQueue != null && (_config.DlQueue?.Name == Empty || _config.DlQueue.Name is null))
                 _config.DlQueue.Name = $"dl{_config.Queue.Name}";
         }
         private void DeclareDlExchangeAndDlQueue()
         {
             FixDlNames();
             _model.ExchangeDeclare(_config.DlExchange.Name,
-                (_config.DlExchange.Type.ToString() == String.Empty ? _config.Exchange.Type : _config.DlExchange.Type).ToString(),
+                (_config.DlExchange.Type.ToString() == Empty ? _config.Exchange.Type : _config.DlExchange.Type).ToString(),
                 _config.Queue.Durable,
                 _config.Queue.AutoDelete
             );

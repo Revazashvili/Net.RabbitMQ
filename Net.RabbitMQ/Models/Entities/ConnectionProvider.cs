@@ -1,14 +1,16 @@
 ﻿using Net.RabbitMQ.Models.Interfaces;
 using RabbitMQ.Client;
 using System;
+using System.Threading.Tasks;
 using Net.RabbitMQ.Models.ValueObjects;
+using RabbitMQ.Client.Exceptions;
 
 namespace Net.RabbitMQ.Models.Entities
 {
     /// <inheritdoc />
     public sealed class ConnectionProvider : IConnectionProvider
     {
-        private readonly IConnection _connection;
+        private readonly RabbitMqConfiguration _configuration;
         private bool _disposed;
         /// <summary>
         /// Creates new instance of <see cref="ConnectionProvider"/> and
@@ -18,32 +20,33 @@ namespace Net.RabbitMQ.Models.Entities
         /// <param name="configuration">The <see cref="RabbitMqConfiguration"/> instance.</param>
         public ConnectionProvider(RabbitMqConfiguration configuration)
         {
+            _configuration = configuration;
+        }
+
+        public IConnection Connection()
+        {
             var connectionFactory = new ConnectionFactory
             {
-                HostName = configuration.RabbitMqConnection.HostName,
-                VirtualHost = configuration.RabbitMqConnection.VirtualHost,
-                Port = (int)configuration.RabbitMqConnection.Port,
-                UserName = configuration.RabbitMqConnection.UserName,
-                Password = configuration.RabbitMqConnection.Password
+                HostName = _configuration.RabbitMqConnection.HostName,
+                VirtualHost = _configuration.RabbitMqConnection.VirtualHost,
+                Port = (int)_configuration.RabbitMqConnection.Port,
+                UserName = _configuration.RabbitMqConnection.UserName,
+                Password = _configuration.RabbitMqConnection.Password,
+                AutomaticRecoveryEnabled = true,
+                NetworkRecoveryInterval = TimeSpan.FromSeconds(10)
             };
-            _connection = connectionFactory.CreateConnection();
-        }
+            IConnection connection;
+            try
+            {
+                connection = connectionFactory.CreateConnection();
+            }
+            catch(BrokerUnreachableException exception)
+            {
+                Task.Delay(5000);
+                connection = connectionFactory.CreateConnection();
+            }
 
-        public IConnection Connection => _connection;
-        
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        private void Dispose(bool disposing)
-        {
-            if (_disposed)
-                return;
-            if (disposing)
-                _connection?.Close();
-            _disposed = true;
+            return connection;
         }
     }
 }
