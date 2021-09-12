@@ -6,3 +6,5 @@ C:\Projects\NetCore\Net.RabbitMQ\Net.RabbitMQ\bin\Debug\netstandard2.0\Net.Rabbi
 C:\Projects\NetCore\Net.RabbitMQ\Net.RabbitMQ\bin\Debug\netstandard2.0\Net.RabbitMQ.pdb
 C:\Projects\NetCore\Net.RabbitMQ\Net.RabbitMQ\obj\Debug\netstandard2.0\Net.RabbitMQ.dll
 C:\Projects\NetCore\Net.RabbitMQ\Net.RabbitMQ\obj\Debug\netstandard2.0\Net.RabbitMQ.pdb
+C:\Projects\NetCore\Net.RabbitMQ\Net.RabbitMQ\obj\Debug\netstandard2.0\Net.RabbitMQ.csproj.AssemblyReference.cache
+C:\Projects\NetCore\Net.RabbitMQ\Net.RabbitMQ\obj\Debug\netstandard2.0\Net.RabbitMQ.GeneratedMSBuildEditorConfig.editorconfig

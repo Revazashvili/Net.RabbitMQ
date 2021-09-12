@@ -15,11 +15,11 @@ namespace Net.RabbitMQ.Extensions
         /// Adds <see cref="IProducer"/> service to the specified <see cref="IServiceCollection"/>.
         /// </summary>
         /// <param name="services">The <see cref="IServiceCollection"/> for adding services.</param>
-        /// <param name="configuration"><see cref="RabbitMQConfiguration"/> instance.</param>
+        /// <param name="configuration"><see cref="RabbitMqConfiguration"/> instance.</param>
         /// <param name="serviceLifetime"><see cref="ServiceLifetime"/> instance.</param>
         /// <returns>A reference to this instance after the operation has completed.</returns>
         public static IServiceCollection AddProducer(this IServiceCollection services, 
-            RabbitMQConfiguration configuration,ServiceLifetime serviceLifetime = ServiceLifetime.Scoped)
+            RabbitMqConfiguration configuration,ServiceLifetime serviceLifetime = ServiceLifetime.Scoped)
         {
             services.AddSingleton(configuration);
             services.AddConnectionProvider(serviceLifetime);
@@ -31,13 +31,13 @@ namespace Net.RabbitMQ.Extensions
         /// Adds <see cref="IProducer"/> service to the specified <see cref="IServiceCollection"/>.
         /// </summary>
         /// <param name="services">The <see cref="IServiceCollection"/> for adding services.</param>
-        /// <param name="configureAction">An <see cref="Action{RabbitMQConfiguration}"/> to configure the provided <see cref="RabbitMQConfiguration"/>.</param>
+        /// <param name="configureAction">An <see cref="Action{RabbitMQConfiguration}"/> to configure the provided <see cref="RabbitMqConfiguration"/>.</param>
         /// <param name="serviceLifetime"><see cref="ServiceLifetime"/> instance.</param>
         /// <returns>A reference to this instance after the operation has completed.</returns>
         public static IServiceCollection AddProducer(this IServiceCollection services, 
-            Action<RabbitMQConfiguration> configureAction,ServiceLifetime serviceLifetime = ServiceLifetime.Scoped)
+            Action<RabbitMqConfiguration> configureAction,ServiceLifetime serviceLifetime = ServiceLifetime.Scoped)
         {
-            var configuration = new RabbitMQConfiguration();
+            var configuration = new RabbitMqConfiguration();
             configureAction?.Invoke(configuration);
             if (configuration is null) 
                 throw new ArgumentNullException(nameof(configuration));
@@ -47,14 +47,14 @@ namespace Net.RabbitMQ.Extensions
         
         
         /// <summary>
-        /// Adds <see cref="IConsumer"/> service to the specified <see cref="IServiceCollection"/>.
+        /// Adds <see cref="ISubscriber"/> service to the specified <see cref="IServiceCollection"/>.
         /// </summary>
         /// <param name="services">The <see cref="IServiceCollection"/> for adding services.</param>
-        /// <param name="configuration"><see cref="RabbitMQConfiguration"/> instance.</param>
+        /// <param name="configuration"><see cref="RabbitMqConfiguration"/> instance.</param>
         /// <param name="serviceLifetime"><see cref="ServiceLifetime"/> instance.</param>
         /// <returns>A reference to this instance after the operation has completed.</returns>
         public static IServiceCollection AddSubscriber(this IServiceCollection services, 
-            RabbitMQConfiguration configuration,ServiceLifetime serviceLifetime = ServiceLifetime.Scoped)
+            RabbitMqConfiguration configuration,ServiceLifetime serviceLifetime = ServiceLifetime.Scoped)
         {
             services.AddSingleton(configuration);
             services.AddConnectionProvider(serviceLifetime);
@@ -63,16 +63,16 @@ namespace Net.RabbitMQ.Extensions
         }
         
         /// <summary>
-        /// Adds <see cref="IConsumer"/> service to the specified <see cref="IServiceCollection"/>.
+        /// Adds <see cref="ISubscriber"/> service to the specified <see cref="IServiceCollection"/>.
         /// </summary>
         /// <param name="services">The <see cref="IServiceCollection"/> for adding services.</param>
-        /// <param name="configureAction">An <see cref="Action{RabbitMQConfiguration}"/> to configure the provided <see cref="RabbitMQConfiguration"/>.</param>
+        /// <param name="configureAction">An <see cref="Action{RabbitMQConfiguration}"/> to configure the provided <see cref="RabbitMqConfiguration"/>.</param>
         /// <param name="serviceLifetime"><see cref="ServiceLifetime"/> instance.</param>
         /// <returns>A reference to this instance after the operation has completed.</returns>
         public static IServiceCollection AddSubscriber(this IServiceCollection services, 
-            Action<RabbitMQConfiguration> configureAction,ServiceLifetime serviceLifetime = ServiceLifetime.Scoped)
+            Action<RabbitMqConfiguration> configureAction,ServiceLifetime serviceLifetime = ServiceLifetime.Scoped)
         {
-            var configuration = new RabbitMQConfiguration();
+            var configuration = new RabbitMqConfiguration();
             configureAction?.Invoke(configuration);
             if (configuration is null) 
                 throw new ArgumentNullException(nameof(configuration));
@@ -84,11 +84,11 @@ namespace Net.RabbitMQ.Extensions
         /// Adds RabbitMq services to the specified <see cref="IServiceCollection"/>.
         /// </summary>
         /// <param name="services">The <see cref="IServiceCollection"/> for adding services.</param>
-        /// <param name="configuration"><see cref="RabbitMQConfiguration"/> instance.</param>
+        /// <param name="configuration"><see cref="RabbitMqConfiguration"/> instance.</param>
         /// <param name="serviceLifetime"><see cref="ServiceLifetime"/> instance.</param>
         /// <returns>A reference to this instance after the operation has completed.</returns>
         public static IServiceCollection AddRabbitMq(this IServiceCollection services,
-            RabbitMQConfiguration configuration,ServiceLifetime serviceLifetime = ServiceLifetime.Scoped)
+            RabbitMqConfiguration configuration,ServiceLifetime serviceLifetime = ServiceLifetime.Scoped)
         {
             services.AddSingleton(configuration);
             services.AddConnectionProvider(serviceLifetime);
@@ -101,13 +101,13 @@ namespace Net.RabbitMQ.Extensions
         /// Adds RabbitMq services to the specified <see cref="IServiceCollection"/>.
         /// </summary>
         /// <param name="services">The <see cref="IServiceCollection"/> for adding services.</param>
-        /// <param name="configureAction">An <see cref="Action{RabbitMQConfiguration}"/> to configure the provided <see cref="RabbitMQConfiguration"/>.</param>
+        /// <param name="configureAction">An <see cref="Action{RabbitMQConfiguration}"/> to configure the provided <see cref="RabbitMqConfiguration"/>.</param>
         /// <param name="serviceLifetime"><see cref="ServiceLifetime"/> instance.</param>
         /// <returns>A reference to this instance after the operation has completed.</returns>
         public static IServiceCollection AddRabbitMq(this IServiceCollection services,
-            Action<RabbitMQConfiguration> configureAction,ServiceLifetime serviceLifetime = ServiceLifetime.Scoped)
+            Action<RabbitMqConfiguration> configureAction,ServiceLifetime serviceLifetime = ServiceLifetime.Scoped)
         {
-            var configuration = new RabbitMQConfiguration();
+            var configuration = new RabbitMqConfiguration();
             configureAction?.Invoke(configuration);
             if (configuration is null) 
                 throw new ArgumentNullException(nameof(configuration));
@@ -144,14 +144,14 @@ namespace Net.RabbitMQ.Extensions
         }
         
         /// <summary>
-        /// Injects <see cref="IConsumer"/> service into DI Container.
+        /// Injects <see cref="ISubscriber"/> service into DI Container.
         /// </summary>
         /// <param name="services">The <see cref="IServiceCollection"/> for adding services.</param>
         /// <param name="serviceLifetime"><see cref="ServiceLifetime"/> instance.</param>
         /// <returns>A reference to this instance after the operation has completed.</returns>
         private static IServiceCollection AddSubscriber(this IServiceCollection services, ServiceLifetime serviceLifetime)
         {
-            var consumerServiceDescriptor = new ServiceDescriptor(typeof(IConsumer), typeof(Consumer), serviceLifetime);
+            var consumerServiceDescriptor = new ServiceDescriptor(typeof(ISubscriber), typeof(Subscriber), serviceLifetime);
             services.Add(consumerServiceDescriptor);
             return services;
         }

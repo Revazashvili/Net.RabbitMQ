@@ -12,15 +12,15 @@ namespace Net.RabbitMQ.Models.Entities
     {
         private readonly IConnectionProvider _connectionProvider;
         private readonly IModel _model;
-        private readonly RabbitMQConfiguration _config;
+        private readonly RabbitMqConfiguration _config;
         private bool _disposed;
 
-        public Producer(IConnectionProvider connectionProvider, RabbitMQConfiguration config)
+        public Producer(IConnectionProvider connectionProvider, RabbitMqConfiguration config)
         {
             _connectionProvider = connectionProvider;
-            _model = _connectionProvider.GetConnection().CreateModel();
+            _model = _connectionProvider.Connection.CreateModel();
             _config = config;
-            _model.ExchangeDeclare(_config.Exchange.Name, _config.Exchange.Type,_config.Queue.Durable, _config.Queue.AutoDelete);
+            _model.ExchangeDeclare(_config.Exchange.Name, _config.Exchange.Type.ToString(),_config.Queue.Durable, _config.Queue.AutoDelete);
         }
         public void Publish<T>(T message)
         {

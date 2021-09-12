@@ -2,7 +2,7 @@
 
 namespace Net.RabbitMQ.Models.Primitives
 {
-    public interface IQueue
+    public interface IQueue : IDurable,IAutoDelete
     {
         string Name { get; set; }
         bool Durable { get; set; }

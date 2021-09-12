@@ -1,7 +1,9 @@
-﻿namespace Net.RabbitMQ.Models.Primitives
+﻿using Net.RabbitMQ.Models.ValueObjects;
+
+namespace Net.RabbitMQ.Models.Primitives
 {
-    public interface IDLQueueProperty<T>
+    public interface IDlQueueProperty
     {
-        T DLQueue { get; set; }
+        Queue DlQueue { get; set; }
     }
 }

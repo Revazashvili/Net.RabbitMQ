@@ -10,19 +10,19 @@ using System.Collections.Generic;
 
 namespace Net.RabbitMQ.Models.Entities
 {
-    public class Consumer : IConsumer
+    public class Subscriber : ISubscriber
     {
         private bool _disposed;
         private readonly IConnectionProvider _connection;
         private readonly IModel _model;
         private readonly EventingBasicConsumer _consumer;
-        private readonly RabbitMQConfiguration _config;
+        private readonly RabbitMqConfiguration _config;
         private string _consumerTag = String.Empty;
-        public Consumer(IConnectionProvider connection, RabbitMQConfiguration config)
+        public Subscriber(IConnectionProvider connection, RabbitMqConfiguration config)
         {
             _connection = connection;
             _config = config;
-            _model = _connection.GetConnection().CreateModel();
+            _model = _connection.Connection.CreateModel();
             DeclareDlExchangeAndDlQueue();
             DeclareExchangeAndQueue();
             _consumer = new EventingBasicConsumer(_model);
@@ -84,6 +84,12 @@ namespace Net.RabbitMQ.Models.Entities
                 _model.BasicCancel(_consumerTag);
             }
         }
+
+        public Task UnSubscribeAsync()
+        {
+            throw new NotImplementedException();
+        }
+
         public void Dispose()
         {
             Dispose(true);
@@ -103,36 +109,36 @@ namespace Net.RabbitMQ.Models.Entities
         #region Private Methods
         private void FixDlNames()
         {
-            if (_config.DLExchange != null && (_config.DLExchange?.Name == String.Empty || _config.DLExchange.Name is null))
-                _config.DLExchange.Name = $"dl{_config.Exchange.Name}";
-            if (_config.DLQueue != null && (_config.DLQueue?.Name == String.Empty || _config.DLQueue.Name is null))
-                _config.DLQueue.Name = $"dl{_config.Queue.Name}";
+            if (_config.DlExchange != null && (_config.DlExchange?.Name == String.Empty || _config.DlExchange.Name is null))
+                _config.DlExchange.Name = $"dl{_config.Exchange.Name}";
+            if (_config.DlQueue != null && (_config.DlQueue?.Name == String.Empty || _config.DlQueue.Name is null))
+                _config.DlQueue.Name = $"dl{_config.Queue.Name}";
         }
         private void DeclareDlExchangeAndDlQueue()
         {
             FixDlNames();
-            _model.ExchangeDeclare(_config.DLExchange.Name,
-                _config.DLExchange.Type == String.Empty ? _config.Exchange.Type : _config.DLExchange.Type,
+            _model.ExchangeDeclare(_config.DlExchange.Name,
+                (_config.DlExchange.Type.ToString() == String.Empty ? _config.Exchange.Type : _config.DlExchange.Type).ToString(),
                 _config.Queue.Durable,
                 _config.Queue.AutoDelete
             );
-            _model.QueueDeclare(_config.DLQueue.Name,
-                _config.DLQueue.Durable,
-                _config.DLQueue.Exclusive,
-                _config.DLQueue.AutoDelete
+            _model.QueueDeclare(_config.DlQueue.Name,
+                _config.DlQueue.Durable,
+                _config.DlQueue.Exclusive,
+                _config.DlQueue.AutoDelete
             );
-            _model.QueueBind(_config.DLQueue.Name, _config.DLExchange.Name, _config.Routing,null);
+            _model.QueueBind(_config.DlQueue.Name, _config.DlExchange.Name, _config.Routing,null);
             _model.BasicQos(_config.PrefetchSize, _config.PrefetchCount, false);
         }
         private void DeclareExchangeAndQueue()
         {
             var arguments = new Dictionary<string, object>()
             {
-                {"x-dead-letter-exchange",_config.DLExchange.Name},
-                {"x-dead-letter-queue",_config.DLQueue.Name}
+                {"x-dead-letter-exchange",_config.DlExchange.Name},
+                {"x-dead-letter-queue",_config.DlQueue.Name}
             };
             
-            _model.ExchangeDeclare(_config.Exchange.Name, _config.Exchange.Type,_config.Queue.Durable, _config.Queue.AutoDelete);
+            _model.ExchangeDeclare(_config.Exchange.Name, _config.Exchange.Type.ToString(),_config.Queue.Durable, _config.Queue.AutoDelete);
             _model.QueueDeclare(_config.Queue.Name, _config.Queue.Durable, _config.Queue.Exclusive, _config.Queue.AutoDelete,arguments);
             _model.QueueBind(_config.Queue.Name, _config.Exchange.Name, _config.Routing,arguments);
             _model.BasicQos(_config.PrefetchSize, _config.PrefetchCount, false);

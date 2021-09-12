@@ -1,7 +1,9 @@
-﻿namespace Net.RabbitMQ.Models.Primitives
+﻿using Net.RabbitMQ.Models.ValueObjects;
+
+namespace Net.RabbitMQ.Models.Primitives
 {
-    public interface IExchangeProperty<T>
+    public interface IExchangeProperty
     {
-        T Exchange { get; set; }
+        Exchange Exchange { get; set; }
     }
 }

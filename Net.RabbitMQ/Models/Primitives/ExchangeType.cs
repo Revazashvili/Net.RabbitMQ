@@ -4,7 +4,7 @@
     {
         Topic=0,
         Direct=1,
-        Fanout=2,
+        FanOut=2,
         Headers=3
     }
 }

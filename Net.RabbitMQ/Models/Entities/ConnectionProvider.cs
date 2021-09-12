@@ -5,14 +5,20 @@ using Net.RabbitMQ.Models.ValueObjects;
 
 namespace Net.RabbitMQ.Models.Entities
 {
-    public class ConnectionProvider : IConnectionProvider
+    /// <inheritdoc />
+    public sealed class ConnectionProvider : IConnectionProvider
     {
-        private readonly IConnectionFactory ConnectionFactory;
-        private readonly IConnection Connection;
+        private readonly IConnection _connection;
         private bool _disposed;
-        public ConnectionProvider(RabbitMQConfiguration configuration)
+        /// <summary>
+        /// Creates new instance of <see cref="ConnectionProvider"/> and
+        /// <seealso cref="IConnection"/> in constructor,
+        /// which will be return on <seealso cref="Connection"/> property.
+        /// </summary>
+        /// <param name="configuration">The <see cref="RabbitMqConfiguration"/> instance.</param>
+        public ConnectionProvider(RabbitMqConfiguration configuration)
         {
-            ConnectionFactory = new ConnectionFactory
+            var connectionFactory = new ConnectionFactory
             {
                 HostName = configuration.RabbitMqConnection.HostName,
                 VirtualHost = configuration.RabbitMqConnection.VirtualHost,
@@ -20,23 +26,23 @@ namespace Net.RabbitMQ.Models.Entities
                 UserName = configuration.RabbitMqConnection.UserName,
                 Password = configuration.RabbitMqConnection.Password
             };
-            Connection = ConnectionFactory.CreateConnection();
+            _connection = connectionFactory.CreateConnection();
         }
-        public IConnection GetConnection()
-        {
-            return Connection;
-        }
+
+        public IConnection Connection => _connection;
+        
         public void Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this);
         }
-        protected virtual void Dispose(bool disposing)
+
+        private void Dispose(bool disposing)
         {
             if (_disposed)
                 return;
             if (disposing)
-                Connection?.Close();
+                _connection?.Close();
             _disposed = true;
         }
     }
