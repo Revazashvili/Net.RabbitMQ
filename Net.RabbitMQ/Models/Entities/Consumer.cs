@@ -65,13 +65,8 @@ namespace Net.RabbitMQ.Models.Entities
                         var message = JsonConvert.DeserializeObject<T>(Encoding.UTF8.GetString(body));
                         var result = callback.Invoke(message);
                         if (result.IsCompleted)
-                        {
                             _model.BasicAck(e.DeliveryTag,false);
-                        }
-                        else
-                        {
-                            _model.BasicNack(e.DeliveryTag,false,false);
-                        }
+                        _model.BasicNack(e.DeliveryTag,false,false);
                     }
                     catch (Exception ex)
                     {
