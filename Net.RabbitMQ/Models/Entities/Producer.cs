@@ -20,7 +20,7 @@ namespace Net.RabbitMQ.Models.Entities
             _connectionProvider = connectionProvider;
             _model = _connectionProvider.GetConnection().CreateModel();
             _config = config;
-            _model.ExchangeDeclare(_config.Exchange.Name, _config.Exchange.Type.ToString(),true,false);
+            _model.ExchangeDeclare(_config.Exchange.Name, _config.Exchange.Type,_config.Queue.Durable, _config.Queue.AutoDelete);
         }
         public void Publish<T>(T message)
         {
@@ -28,18 +28,15 @@ namespace Net.RabbitMQ.Models.Entities
             var basicProperties = _model.CreateBasicProperties();
             _model.BasicPublish(_config.Exchange.Name, _config.Routing, basicProperties, body: body);
         }
-
         public async Task PublishAsync<T>(T message)
         {
             await Task.Run(() =>
             {
                 var body = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(message));
                 var basicProperties = _model.CreateBasicProperties();
-                basicProperties.Headers = _config.Queue.Arguments;
                 _model.BasicPublish(_config.Exchange.Name, _config.Routing, basicProperties, body: body);
             });
         }
-
         public void Dispose()
         {
             Dispose(true);

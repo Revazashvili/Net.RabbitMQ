@@ -7,8 +7,6 @@ namespace Net.RabbitMQ.Models.Primitives
         string Name { get; set; }
         bool Durable { get; set; }
         bool AutoDelete { get; set; }
-        bool Exclusive { get; set; }
-        Dictionary<string,object> Arguments { get; set; }
-        
+        bool Exclusive { get; set; }        
     }
 }

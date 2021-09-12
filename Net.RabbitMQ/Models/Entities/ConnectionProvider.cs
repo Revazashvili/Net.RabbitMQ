@@ -22,7 +22,6 @@ namespace Net.RabbitMQ.Models.Entities
             };
             Connection = ConnectionFactory.CreateConnection();
         }
-
         public IConnection GetConnection()
         {
             return Connection;
@@ -32,7 +31,6 @@ namespace Net.RabbitMQ.Models.Entities
             Dispose(true);
             GC.SuppressFinalize(this);
         }
-
         protected virtual void Dispose(bool disposing)
         {
             if (_disposed)

@@ -5,7 +5,8 @@ namespace Net.RabbitMQ.Models.Interfaces
 {
     public interface IConsumer : IDisposable
     {
-        void Subscribe();
         void Subscribe<T>(Func<T, Task> callback);
+        Task SubscribeAsync<T>(Func<T, Task> callback);
+        void UnSubscribe();
     }
 }
