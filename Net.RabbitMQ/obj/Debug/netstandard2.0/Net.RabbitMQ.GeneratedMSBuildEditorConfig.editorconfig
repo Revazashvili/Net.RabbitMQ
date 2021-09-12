@@ -1,0 +1,3 @@
+is_global = true
+build_property.RootNamespace = Net.RabbitMQ
+build_property.ProjectDir = C:\Projects\NetCore\Net.RabbitMQ\Net.RabbitMQ\
