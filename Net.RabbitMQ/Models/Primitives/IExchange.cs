@@ -3,6 +3,6 @@
     public interface IExchange : IDurable,IAutoDelete
     {
         string Name { get; set; }
-        ExchangeType Type { get; set; }
+        string Type { get; set; }
     }
 }

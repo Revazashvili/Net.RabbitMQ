@@ -2,6 +2,54 @@
   "version": 3,
   "targets": {
     ".NETStandard,Version=v2.0": {
+      "Forbid/1.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/Forbid.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Forbid.dll": {}
+        }
+      },
+      "Forbid.Extensions.Microsoft.DependencyInjection/1.0.0": {
+        "type": "package",
+        "dependencies": {
+          "Forbid": "1.0.0",
+          "Microsoft.Extensions.DependencyInjection": "5.0.2"
+        },
+        "compile": {
+          "lib/netstandard2.0/Forbid.Extensions.Microsoft.DependencyInjection.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Forbid.Extensions.Microsoft.DependencyInjection.dll": {}
+        }
+      },
+      "Microsoft.Bcl.AsyncInterfaces/5.0.0": {
+        "type": "package",
+        "dependencies": {
+          "System.Threading.Tasks.Extensions": "4.5.4"
+        },
+        "compile": {
+          "lib/netstandard2.0/Microsoft.Bcl.AsyncInterfaces.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.Bcl.AsyncInterfaces.dll": {}
+        }
+      },
+      "Microsoft.Extensions.DependencyInjection/5.0.2": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Bcl.AsyncInterfaces": "5.0.0",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "5.0.0",
+          "System.Threading.Tasks.Extensions": "4.5.4"
+        },
+        "compile": {
+          "lib/netstandard2.0/Microsoft.Extensions.DependencyInjection.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.Extensions.DependencyInjection.dll": {}
+        }
+      },
       "Microsoft.Extensions.DependencyInjection.Abstractions/5.0.0": {
         "type": "package",
         "compile": {
@@ -125,6 +173,77 @@
     }
   },
   "libraries": {
+    "Forbid/1.0.0": {
+      "sha512": "wbvQD9v1W3C9b24wgA4UHqKTbPPL78Lq9CZiaHHJhj+rRWHgZLD05cTNikgmjZ0zf4FRqr+HpJD3FGVSd3edQw==",
+      "type": "package",
+      "path": "forbid/1.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "forbid.1.0.0.nupkg.sha512",
+        "forbid.nuspec",
+        "lib/netstandard2.0/Forbid.dll"
+      ]
+    },
+    "Forbid.Extensions.Microsoft.DependencyInjection/1.0.0": {
+      "sha512": "wOFMCXlUYOF02Xk6TBD9eD+x3Voe3KRK1l/PXHGfNXhbWtyT+Lxw7DWicF1vF7YANCI9QkSxSto/F4W9CPzsjw==",
+      "type": "package",
+      "path": "forbid.extensions.microsoft.dependencyinjection/1.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "README.md",
+        "forbid.extensions.microsoft.dependencyinjection.1.0.0.nupkg.sha512",
+        "forbid.extensions.microsoft.dependencyinjection.nuspec",
+        "lib/netstandard2.0/Forbid.Extensions.Microsoft.DependencyInjection.dll"
+      ]
+    },
+    "Microsoft.Bcl.AsyncInterfaces/5.0.0": {
+      "sha512": "W8DPQjkMScOMTtJbPwmPyj9c3zYSFGawDW3jwlBOOsnY+EzZFLgNQ/UMkK35JmkNOVPdCyPr2Tw7Vv9N+KA3ZQ==",
+      "type": "package",
+      "path": "microsoft.bcl.asyncinterfaces/5.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "LICENSE.TXT",
+        "THIRD-PARTY-NOTICES.TXT",
+        "lib/net461/Microsoft.Bcl.AsyncInterfaces.dll",
+        "lib/net461/Microsoft.Bcl.AsyncInterfaces.xml",
+        "lib/netstandard2.0/Microsoft.Bcl.AsyncInterfaces.dll",
+        "lib/netstandard2.0/Microsoft.Bcl.AsyncInterfaces.xml",
+        "lib/netstandard2.1/Microsoft.Bcl.AsyncInterfaces.dll",
+        "lib/netstandard2.1/Microsoft.Bcl.AsyncInterfaces.xml",
+        "microsoft.bcl.asyncinterfaces.5.0.0.nupkg.sha512",
+        "microsoft.bcl.asyncinterfaces.nuspec",
+        "useSharedDesignerContext.txt",
+        "version.txt"
+      ]
+    },
+    "Microsoft.Extensions.DependencyInjection/5.0.2": {
+      "sha512": "xzFW00AZEvOXM1OX+0+AYH5op/Hf3u//e6wszBd/rK72sypD+jx5CtsHxM4BVuFBEs8SajfO4QzSJtrQaHDr4A==",
+      "type": "package",
+      "path": "microsoft.extensions.dependencyinjection/5.0.2",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "LICENSE.TXT",
+        "THIRD-PARTY-NOTICES.TXT",
+        "lib/net461/Microsoft.Extensions.DependencyInjection.dll",
+        "lib/net461/Microsoft.Extensions.DependencyInjection.xml",
+        "lib/net5.0/Microsoft.Extensions.DependencyInjection.dll",
+        "lib/net5.0/Microsoft.Extensions.DependencyInjection.xml",
+        "lib/netstandard2.0/Microsoft.Extensions.DependencyInjection.dll",
+        "lib/netstandard2.0/Microsoft.Extensions.DependencyInjection.xml",
+        "lib/netstandard2.1/Microsoft.Extensions.DependencyInjection.dll",
+        "lib/netstandard2.1/Microsoft.Extensions.DependencyInjection.xml",
+        "microsoft.extensions.dependencyinjection.5.0.2.nupkg.sha512",
+        "microsoft.extensions.dependencyinjection.nuspec",
+        "useSharedDesignerContext.txt",
+        "version.txt"
+      ]
+    },
     "Microsoft.Extensions.DependencyInjection.Abstractions/5.0.0": {
       "sha512": "ORj7Zh81gC69TyvmcUm9tSzytcy8AVousi+IVRAI8nLieQjOFryRusSFh7+aLk16FN9pQNqJAiMd7BTKINK0kA==",
       "type": "package",
@@ -529,6 +648,8 @@
   },
   "projectFileDependencyGroups": {
     ".NETStandard,Version=v2.0": [
+      "Forbid >= 1.0.0",
+      "Forbid.Extensions.Microsoft.DependencyInjection >= 1.0.0",
       "Microsoft.Extensions.DependencyInjection.Abstractions >= 5.0.0",
       "NETStandard.Library >= 2.0.3",
       "Newtonsoft.Json >= 12.0.3",
@@ -540,7 +661,7 @@
     "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\": {}
   },
   "project": {
-    "version": "1.0.3",
+    "version": "1.0.9",
     "restore": {
       "projectUniqueName": "C:\\Projects\\NetCore\\Net.RabbitMQ\\Net.RabbitMQ\\Net.RabbitMQ.csproj",
       "projectName": "Net.RabbitMQ",
@@ -579,6 +700,14 @@
       "netstandard2.0": {
         "targetAlias": "netstandard2.0",
         "dependencies": {
+          "Forbid": {
+            "target": "Package",
+            "version": "[1.0.0, )"
+          },
+          "Forbid.Extensions.Microsoft.DependencyInjection": {
+            "target": "Package",
+            "version": "[1.0.0, )"
+          },
           "Microsoft.Extensions.DependencyInjection.Abstractions": {
             "target": "Package",
             "version": "[5.0.0, )"

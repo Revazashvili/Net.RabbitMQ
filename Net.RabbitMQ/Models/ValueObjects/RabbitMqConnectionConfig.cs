@@ -2,10 +2,6 @@
 {
     public class RabbitMqConnectionConfig
     {
-        public RabbitMqConnectionConfig()
-        {
-        }
-
         public RabbitMqConnectionConfig(string hostName, string virtualHost, uint port, string userName, string password)
         {
             HostName = hostName;

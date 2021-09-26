@@ -7,39 +7,38 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using Forbids;
 using Net.RabbitMQ.Models.Exceptions;
 using static System.String;
 
 namespace Net.RabbitMQ.Models.Entities
 {
-    /// <inheritdoc />
     public class Consumer : IConsumer
     {
         private bool _disposed;
         private readonly IModel _model;
         private readonly AsyncEventingBasicConsumer _consumer;
-        private readonly RabbitMqConfiguration _config;
+        private readonly IForbid _forbid;
+        private readonly RabbitMQConfiguration _config;
         private string _consumerTag = Empty;
-        public Consumer(IConnectionProvider connection, RabbitMqConfiguration config)
+        public Consumer(IForbid forbid,IConnectionProvider connection, RabbitMQConfiguration config)
         {
-            _config = config ?? throw new Exception(nameof(RabbitMqConfiguration));
-            _model = connection.Connection().CreateModel() ?? throw new Exception(nameof(IConnectionProvider));
+            _forbid = forbid;
+            _config = _forbid.Null(config);
+            _model = _forbid.Null(connection.Connection().CreateModel());
             DeclareDlExchangeAndDlQueue();
             DeclareExchangeAndQueue();
-            _consumer = new AsyncEventingBasicConsumer(_model) ?? throw new Exception(nameof(EventingBasicConsumer));
+            _consumer = _forbid.Null(new AsyncEventingBasicConsumer(_model));
         }
         public void Subscribe<T>(Func<T, Task> callback)
         {
-            if (callback is null)
-                throw new CallbackFunctionNullException();
-            
+            _forbid.Null(callback, new CallbackFunctionNullException());
             _consumer.Received += async (sender,e) =>
             {
                 try
                 {
                     var body = e.Body.ToArray();
-                    if (body is null) 
-                        throw new ConsumedMessageNullException();
+                    _forbid.Null(body, new ConsumedMessageNullException());
                     var message = JsonConvert.DeserializeObject<T>(Encoding.UTF8.GetString(body));
                     var result = callback(message);
                     if (result!.IsCompleted)
@@ -47,7 +46,7 @@ namespace Net.RabbitMQ.Models.Entities
                     else
                         _model.BasicNack(e.DeliveryTag, false, false);
                 }
-                catch(Exception ex)
+                catch(Exception)
                 {
                     _model.BasicNack(e.DeliveryTag, false, false);
                     throw;
@@ -86,10 +85,10 @@ namespace Net.RabbitMQ.Models.Entities
         #region Private Methods
         private void FixDlNames()
         {
-            if (_config.DlExchange != null && (_config.DlExchange?.Name == Empty || _config.DlExchange.Name is null))
-                _config.DlExchange.Name = $"dl{_config.Exchange.Name}";
-            if (_config.DlQueue != null && (_config.DlQueue?.Name == Empty || _config.DlQueue.Name is null))
-                _config.DlQueue.Name = $"dl{_config.Queue.Name}";
+            _forbid.Null(_config.DlExchange);
+            if (IsNullOrEmpty(_config.DlExchange.Name)) _config.DlExchange.Name = $"dl{_config.Exchange.Name}";
+            _forbid.Null(_config.DlQueue);
+            if (IsNullOrEmpty(_config.DlQueue.Name)) _config.DlQueue.Name = $"dl{_config.Queue.Name}";
         }
         private void DeclareDlExchangeAndDlQueue()
         {

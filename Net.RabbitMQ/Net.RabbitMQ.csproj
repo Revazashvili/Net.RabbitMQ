@@ -22,6 +22,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Forbid" Version="1.0.0" />
+    <PackageReference Include="Forbid.Extensions.Microsoft.DependencyInjection" Version="1.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="RabbitMQ.Client" Version="6.2.1" />

@@ -10,15 +10,15 @@ namespace Net.RabbitMQ.Models.Entities
     /// <inheritdoc />
     public sealed class ConnectionProvider : IConnectionProvider
     {
-        private readonly RabbitMqConfiguration _configuration;
-        private bool _disposed;
+        private readonly RabbitMQConfiguration _configuration;
+
         /// <summary>
         /// Creates new instance of <see cref="ConnectionProvider"/> and
         /// <seealso cref="IConnection"/> in constructor,
         /// which will be return on <seealso cref="Connection"/> property.
         /// </summary>
-        /// <param name="configuration">The <see cref="RabbitMqConfiguration"/> instance.</param>
-        public ConnectionProvider(RabbitMqConfiguration configuration)
+        /// <param name="configuration">The <see cref="RabbitMQConfiguration"/> instance.</param>
+        public ConnectionProvider(RabbitMQConfiguration configuration)
         {
             _configuration = configuration;
         }
@@ -40,7 +40,7 @@ namespace Net.RabbitMQ.Models.Entities
             {
                 connection = connectionFactory.CreateConnection();
             }
-            catch(BrokerUnreachableException exception)
+            catch(BrokerUnreachableException)
             {
                 Task.Delay(5000);
                 connection = connectionFactory.CreateConnection();

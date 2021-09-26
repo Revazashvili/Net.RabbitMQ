@@ -5,7 +5,7 @@
   },
   "projects": {
     "C:\\Projects\\NetCore\\Net.RabbitMQ\\Net.RabbitMQ\\Net.RabbitMQ.csproj": {
-      "version": "1.0.3",
+      "version": "1.0.9",
       "restore": {
         "projectUniqueName": "C:\\Projects\\NetCore\\Net.RabbitMQ\\Net.RabbitMQ\\Net.RabbitMQ.csproj",
         "projectName": "Net.RabbitMQ",
@@ -44,6 +44,14 @@
         "netstandard2.0": {
           "targetAlias": "netstandard2.0",
           "dependencies": {
+            "Forbid": {
+              "target": "Package",
+              "version": "[1.0.0, )"
+            },
+            "Forbid.Extensions.Microsoft.DependencyInjection": {
+              "target": "Package",
+              "version": "[1.0.0, )"
+            },
             "Microsoft.Extensions.DependencyInjection.Abstractions": {
               "target": "Package",
               "version": "[5.0.0, )"

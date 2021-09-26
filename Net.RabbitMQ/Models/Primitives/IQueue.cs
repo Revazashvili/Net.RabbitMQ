@@ -5,8 +5,6 @@ namespace Net.RabbitMQ.Models.Primitives
     public interface IQueue : IDurable,IAutoDelete
     {
         string Name { get; set; }
-        bool Durable { get; set; }
-        bool AutoDelete { get; set; }
         bool Exclusive { get; set; }        
     }
 }
