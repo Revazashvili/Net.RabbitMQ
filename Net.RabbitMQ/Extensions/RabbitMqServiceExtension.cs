@@ -47,7 +47,7 @@ namespace Net.RabbitMQ.Extensions
         
         
         /// <summary>
-        /// Adds <see cref="ISubscriber"/> service to the specified <see cref="IServiceCollection"/>.
+        /// Adds <see cref="IConsumer"/> service to the specified <see cref="IServiceCollection"/>.
         /// </summary>
         /// <param name="services">The <see cref="IServiceCollection"/> for adding services.</param>
         /// <param name="configuration"><see cref="RabbitMqConfiguration"/> instance.</param>
@@ -63,7 +63,7 @@ namespace Net.RabbitMQ.Extensions
         }
         
         /// <summary>
-        /// Adds <see cref="ISubscriber"/> service to the specified <see cref="IServiceCollection"/>.
+        /// Adds <see cref="IConsumer"/> service to the specified <see cref="IServiceCollection"/>.
         /// </summary>
         /// <param name="services">The <see cref="IServiceCollection"/> for adding services.</param>
         /// <param name="configureAction">An <see cref="Action{RabbitMQConfiguration}"/> to configure the provided <see cref="RabbitMqConfiguration"/>.</param>
@@ -144,14 +144,14 @@ namespace Net.RabbitMQ.Extensions
         }
         
         /// <summary>
-        /// Injects <see cref="ISubscriber"/> service into DI Container.
+        /// Injects <see cref="IConsumer"/> service into DI Container.
         /// </summary>
         /// <param name="services">The <see cref="IServiceCollection"/> for adding services.</param>
         /// <param name="serviceLifetime"><see cref="ServiceLifetime"/> instance.</param>
         /// <returns>A reference to this instance after the operation has completed.</returns>
         private static IServiceCollection AddSubscriber(this IServiceCollection services, ServiceLifetime serviceLifetime)
         {
-            var consumerServiceDescriptor = new ServiceDescriptor(typeof(ISubscriber), typeof(Subscriber), serviceLifetime);
+            var consumerServiceDescriptor = new ServiceDescriptor(typeof(IConsumer), typeof(Consumer), serviceLifetime);
             services.Add(consumerServiceDescriptor);
             return services;
         }

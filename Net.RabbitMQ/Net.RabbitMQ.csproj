@@ -7,6 +7,14 @@
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <LangVersion>10</LangVersion>
     <Nullable>enable</Nullable>
+    <PackageVersion>1.0.9</PackageVersion>
+    <Title>Net.RabbitMQ</Title>
+    <Authors>Revazashvili</Authors>
+    <Description>Package for publishing and consuming messages to RabbitMQ</Description>
+    <PackageProjectUrl>https://github.com/Revazashvili/Net.RabbitMQ</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Revazashvili/Net.RabbitMQ</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>RabbitMQ .Net publish subscribe pub/sub</PackageTags>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
